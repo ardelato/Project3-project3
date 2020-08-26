@@ -106,7 +106,6 @@ router.route("/toy/update/:id").post((req, res) => {
       toy.date = req.body.date;
       toy.condition = req.body.condition;
       toy.image = req.body.image;
-      //I'm not sure if this is correct for images
       toy.location = req.body.location;
 
       toy
