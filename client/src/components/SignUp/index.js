@@ -1,7 +1,6 @@
 import React from "react";
 
 export function SignUp(props) {
-  console.log(props);
   return (
     <>
       <input

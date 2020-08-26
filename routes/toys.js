@@ -3,10 +3,8 @@ let Toy = require("../models/modeltoys");
 let User = require("../models/users");
 
 router.route("/toys").get((req, res) => {
-  // console.log("Toy database");
   Toy.find({})
     .then(toys => {
-      // console.log(toys);
       res.json(toys);
     })
     .catch(err => res.status(400).json("can not route to /toys " + err));
@@ -33,13 +31,9 @@ router.route("/toys/add").post((req, res) => {
     location
   });
 
-  console.log(addedToy);
-
-  addedToy
-    .save()
-    .then(toy => {
-      console.log(toy);
-      User.findByIdAndUpdate(req.body.userid).then((user) => {
+  addedToy.save().then(toy => {
+    User.findByIdAndUpdate(req.body.userid)
+      .then(user => {
         //this is not for saved toy but for the toy that user own
         //THis post request is working now
 
@@ -48,38 +42,38 @@ router.route("/toys/add").post((req, res) => {
         user.save(err => {
           console.log("Printing error" + err);
         });
-
-      }).catch(err => res.status(400).json("Toy not saved" + err));
-    });
+      })
+      .catch(err => res.status(400).json("Toy not saved" + err));
+  });
 });
 
 router.route("/savedToys/add").post((req, res) => {
   const userid = req.body.userid;
   const savedtoyid = req.body.toyid;
-  console.log(userid)
-  User.findById(userid).then((user) => {
+  User.findById(userid).then(user => {
     //this is for the favorite toy routes
     // Favorite
-    // console.log(user)
+
     user.savedtoys.push(savedtoyid);
     user.save(err => {
       if (err) {
         console.log("Printing error " + err);
       }
     });
-  })
-})
+  });
+});
 
 router.route("/savedtoys/:id").get((req, res) => {
   const userid = req.params.id;
-  User.findById(userid).then((user) => {
-    console.log(user.savedtoys);
-    res.send(user.savedtoys)
-  }).catch(err => {
-    console.log(err);
-    res.status(400).json("User not found" + err);
-  })
-})
+  User.findById(userid)
+    .then(user => {
+      res.send(user.savedtoys);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(400).json("User not found" + err);
+    });
+});
 
 router.route("/toy/:id").get((req, res) => {
   Toy.findById(req.params.id)
@@ -88,22 +82,19 @@ router.route("/toy/:id").get((req, res) => {
 });
 
 router.route("/toy/:userid/:toyid").delete((req, res) => {
-  console.log("Now deleting toy")
-  console.log(req.params)
-  Toy.findByIdAndDelete(req.params.toyid).then(() => {
-    console.log("Now delteing toy from user " + req.params.userid)
+  Toy.findByIdAndDelete(req.params.toyid)
+    .then(() => {
+      User.findByIdAndUpdate(req.params.userid)
+        .then(user => {
+          user.toys.pull({ _id: req.params.toyid });
 
-    User.findByIdAndUpdate(req.params.userid).then((user) => {
-      console.log("Now removing toy from user array")
-      console.log(user)
-      user.toys.pull({ _id: req.params.toyid });
-      console.log(user.toys)
-      user.save(err => {
-        console.log("Printing error" + err);
-      });
-
-    }).catch(err => res.status(400).json("Toy is not deleted" + err));
-  }).catch(err => res.status(400).json("Toy is not deleted" + err));
+          user.save(err => {
+            console.log("Printing error" + err);
+          });
+        })
+        .catch(err => res.status(400).json("Toy is not deleted" + err));
+    })
+    .catch(err => res.status(400).json("Toy is not deleted" + err));
 });
 
 router.route("/toy/update/:id").post((req, res) => {
@@ -127,4 +118,3 @@ router.route("/toy/update/:id").post((req, res) => {
 });
 
 module.exports = router;
-

@@ -9,10 +9,6 @@ import { IconButton } from "@material-ui/core";
 import axios from "axios";
 import ShowMoreText from "react-show-more-text";
 
-function executeOnClick(isExpanded) {
-  console.log(isExpanded);
-}
-
 function savedtoyList(currenttoy, userid) {
   const data = {
     userid: userid,
@@ -24,7 +20,6 @@ function savedtoyList(currenttoy, userid) {
 
 function ToyCard(props) {
   let data = props.currenttoy || {};
-  console.log(data);
 
   return (
     <Card>
@@ -39,7 +34,6 @@ function ToyCard(props) {
                 more="Show more"
                 less="Show less"
                 anchorClass=""
-                onClick={() => executeOnClick()}
                 expanded={false}
                 width={250}
               >

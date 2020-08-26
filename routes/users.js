@@ -28,10 +28,6 @@ router.route("/listing/:userid").get((req, res) => {
 
 // Will add a new user
 router.route("/user/add").post((req, res) => {
-  console.log("============User============");
-  console.log(req.user);
-  console.log(req.session);
-
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
   const email = req.body.email;
@@ -40,8 +36,6 @@ router.route("/user/add").post((req, res) => {
     const newUser = new User({ firstName, lastName, email, hashedPassword });
 
     // Saves the new user only if the email is unique/not a duplicate
-    console.log(newUser);
-
     // User the current date to create a unique ID
     // Creating new User Model
     newUser
@@ -58,7 +52,6 @@ router.route("/user/add").post((req, res) => {
 
 // API route to get user when they try to login
 router.route("/user/login").post(passport.authenticate("local"), (req, res) => {
-  console.log("Logged in", req.user);
   let userInfo = {
     _id: req.user._id,
     firstName: req.user.firstName
@@ -68,7 +61,7 @@ router.route("/user/login").post(passport.authenticate("local"), (req, res) => {
 
 router.route("/user/login").get((req, res) => {
   let user = req.user;
-  console.log("Retrieving user", req.session.passport.user);
+
   if (user) {
     let userInfo = {
       _id: user._id,
@@ -82,7 +75,6 @@ router.route("/user/login").get((req, res) => {
 
 // API route to logout the user
 router.route("/user/logout").get((req, res) => {
-  console.log("Logging out user" + req.user);
   req.logout();
   res.send({ msg: "logging out" });
 });

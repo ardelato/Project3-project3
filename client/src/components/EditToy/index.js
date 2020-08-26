@@ -69,7 +69,6 @@ export default class EditToy extends Component {
   }
 
   onChangedate(Date) {
-
     this.setState({
       Date: Date
     });
@@ -93,8 +92,6 @@ export default class EditToy extends Component {
       image: this.state.image,
       Date: this.state.Date
     };
-
-    console.log(toy);
 
     axios
       .post("/toys" + this.props.match.params.id, toy)
@@ -178,4 +175,3 @@ export default class EditToy extends Component {
     );
   }
 }
-

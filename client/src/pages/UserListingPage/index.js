@@ -32,15 +32,11 @@ export default class UserListingPage extends Component {
   }
 
   componentWillReceiveProps(props) {
-
-    console.log(props.userid)
     let url = `/listing/${props.userid}`;
-    console.log(url)
 
     axios
       .get(url)
       .then(response => {
-        console.log(response);
         this.setState({
           userid: props.userid,
           toysListing: response.data.toys
@@ -105,8 +101,6 @@ export default class UserListingPage extends Component {
       Date: this.state.Date
     };
 
-    console.log(toy);
-
     axios.post("/toys/add", toy).then(res => {
       console.log(res.data);
     });
@@ -121,27 +115,16 @@ export default class UserListingPage extends Component {
     });
   }
 
-
   deleteToy(userid, toyid) {
-    console.log(userid)
+    const data = { userid: userid, toyid: toyid };
 
-
-    console.log(toyid)
-    const data = { userid: userid, toyid: toyid }
-    console.log(data)
     axios
       .delete(`/toy/${userid}/${toyid}`)
-      .then(res => console.log(res.data)).catch(err => console.log(err))
-    // this.setState({
-    //   toysListing: this.state.toysListing.filter(el => el._id !== toyid)
-    // });
+      .then(res => console.log(res.data))
+      .catch(err => console.log(err));
   }
 
   render() {
-
-    console.log(this.props.userid)
-    console.log(this.state.toysListing)
-
     return (
       <div>
         <div>

@@ -6,18 +6,11 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { IconButton } from "@material-ui/core";
-import ShowMoreText from 'react-show-more-text';
-
-function executeOnClick(isExpanded) {
-  console.log(isExpanded);
-}
+import ShowMoreText from "react-show-more-text";
 
 function SavedToyCard(props) {
   let data = props.currenttoy;
-  console.log("SavedToyCard")
-  console.log(props.userid)
-  console.log(props.deleteToy)
-  console.log(data)
+
   return (
     <Card>
       <Card.Img variant="top" src={data.image} className="cardImg" />
@@ -25,13 +18,15 @@ function SavedToyCard(props) {
         <Row>
           <Col key={data.key}>
             <Card.Title className="cardTitle">
-              <ShowMoreText className="showMore" lines={2}
-                more='Show more'
-                less='Show less'
-                anchorClass=''
-                onClick={() => executeOnClick()}
+              <ShowMoreText
+                className="showMore"
+                lines={2}
+                more="Show more"
+                less="Show less"
+                anchorClass=""
                 expanded={false}
-                width={250}>
+                width={250}
+              >
                 {data.toyname}
               </ShowMoreText>
             </Card.Title>
@@ -57,7 +52,11 @@ function SavedToyCard(props) {
             <Card.Text>{data.location}</Card.Text>
           </Col>
           <Col xs={3} className="text-right my-2">
-            <IconButton className="favorite" color="secondary" onClick={() => props.deleteToy(props.userid, data._id)}>
+            <IconButton
+              className="favorite"
+              color="secondary"
+              onClick={() => props.deleteToy(props.userid, data._id)}
+            >
               <DeleteIcon style={{ color: "red" }} />
             </IconButton>
           </Col>

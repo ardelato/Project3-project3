@@ -11,14 +11,7 @@ class SearchResults extends Component {
     };
   }
 
-
-
   render() {
-    console.log("this is search results render");
-    console.log(this.props)
-    console.log("Search Results");
-    console.table(this.state.searchtoys);
-    console.log(this.props.toys);
     return (
       <div>
         <CardDeck>
@@ -27,8 +20,8 @@ class SearchResults extends Component {
               return <ToyCard currenttoy={toy} key={index} />;
             })
           ) : (
-              <div>Loading .....</div>
-            )}
+            <div>Loading .....</div>
+          )}
         </CardDeck>
       </div>
     );
